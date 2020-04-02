@@ -55,6 +55,7 @@ const actions = {
 
         dispatch('verifyEmail', {token: res.token, userId: res.user.id});
       }).catch(res => {
+      commit('loading');
         //develop debug
       console.log(res.message);
 
@@ -75,18 +76,6 @@ const actions = {
     form.post('login').then(res => {
       //develop debug
       console.log(res.user);
-
-      if (!res.user.email_verified_at) {
-        Vue.notify({
-          group: 'main',
-          title: 'Login',
-          type: "error",
-          text: 'You need to verify you email!',
-          duration: 3000,
-          speed: 1000
-        });
-        return;
-      }
 
       //from seconds to milliseconds
       const expirationDate = new Date(res.expiration * 1000);
