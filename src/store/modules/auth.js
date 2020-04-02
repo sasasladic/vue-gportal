@@ -70,9 +70,6 @@ const actions = {
       }
     });
   },
-  loading({commit}){
-    commit('loading')
-  },
   login: ({commit, dispatch}, authData) => {
     let form = new Form(authData);
     form.post('login').then(res => {
