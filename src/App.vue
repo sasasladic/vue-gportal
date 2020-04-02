@@ -18,13 +18,13 @@
   import Header from "./components/Header.vue";
   import Footer from "./components/Footer";
   import variables from "./core/variables";
-  import Loading from "./components/Loading.vue";
+  import loading from 'vue-full-loading';
 
   export default {
     components: {
       appHeader: Header,
       appFooter: Footer,
-      loading: Loading
+      loading
     },
     data(){
       return{
