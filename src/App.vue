@@ -4,6 +4,9 @@
       <div class="space"></div>
       <app-header></app-header>
       <router-view></router-view>
+      <loading :show="show"
+               :label="label"
+               :overlay="overlay" > </loading>
       <notifications group="main"></notifications>
       <app-footer></app-footer>
       <div class="space"></div>
@@ -15,16 +18,27 @@
   import Header from "./components/Header.vue";
   import Footer from "./components/Footer";
   import variables from "./core/variables";
+  import Loading from "./components/Loading.vue";
 
   export default {
     components: {
       appHeader: Header,
-      appFooter: Footer
+      appFooter: Footer,
+      loading: Loading
+    },
+    data(){
+      return{
+        label: 'Loading...',
+        overlay: true
+      }
     },
     name: 'app',
     computed : {
       url() {
         return variables.URL;
+      },
+      show(){
+        return this.$store.getters.loading
       }
     },
     created() {

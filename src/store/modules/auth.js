@@ -3,7 +3,8 @@ import Vue from 'vue';
 
 const state = {
   token: null,
-  user: null
+  user: null,
+  loading: null
 };
 
 const mutations = {
@@ -14,6 +15,9 @@ const mutations = {
   clearAuthData: (state) => {
     state.token = null;
     state.user = null;
+  },
+  loading(state){
+    state.loading = !state.loading
   }
 };
 
@@ -28,6 +32,7 @@ const actions = {
   verifyEmail: ({commit}, userData) => {
     axios.get('/email/resend', {headers: {Authorization: 'Bearer ' + userData.token}})
       .then(res => {
+        commit('loading');
         //develop debug
         console.log(res);
 
@@ -42,6 +47,7 @@ const actions = {
       });
   },
   register: ({commit, dispatch}, authData) => {
+    commit('loading');
     let form = new Form(authData);
     form.post('register').then(res => {
         //develop debug
@@ -52,17 +58,20 @@ const actions = {
         //develop debug
       console.log(res.message);
 
-      // for (let data in res.errors) {
-      //   Vue.notify({
-      //     group: 'main',
-      //     title: 'Registration',
-      //     type: 'error',
-      //     text: res.errors[data][0],
-      //     duration: 3000,
-      //     speed: 1000
-      //   });
-      // }
+      for (let data in res.errors) {
+        Vue.notify({
+          group: 'main',
+          title: 'Registration',
+          type: 'error',
+          text: res.errors[data][0],
+          duration: 3000,
+          speed: 1000
+        });
+      }
     });
+  },
+  loading({commit}){
+    commit('loading')
   },
   login: ({commit, dispatch}, authData) => {
     let form = new Form(authData);
@@ -149,6 +158,9 @@ const getters = {
   },
   token: (state) => {
     return state.token;
+  },
+  loading(state){
+    return state.loading
   }
 };
 
