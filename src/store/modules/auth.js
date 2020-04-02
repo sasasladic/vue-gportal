@@ -18,18 +18,19 @@ const mutations = {
 };
 
 const actions = {
-  setLogoutTimer: ({commit}, expirationTime) =>{
+  setLogoutTimer: ({commit}, expirationTime) => {
     const now = new Date();
     setTimeout(() => {
       commit('clearAuthData')
-    },expirationTime.getTime() - now.getTime())
-  //  expirationTime take one hour in milliseconds
+    }, expirationTime.getTime() - now.getTime())
+    //  expirationTime take one hour in milliseconds
   },
   verifyEmail: ({commit}, userData) => {
-    axios.get('/email/resend',{headers: {Authorization: 'Bearer ' + userData.token}})
+    axios.get('/email/resend', {headers: {Authorization: 'Bearer ' + userData.token}})
       .then(res => {
-      //develop debug
-      console.log(res);
+        //develop debug
+        console.log(res);
+
         Vue.notify({
           group: 'main',
           title: 'Registration',
@@ -38,61 +39,38 @@ const actions = {
           duration: 3000,
           speed: 1000
         });
-    });
+      });
   },
   register: ({commit, dispatch}, authData) => {
-    let form = new Form({
-        first_name: authData.first_name,
-        last_name: authData.last_name,
-        username: authData.username,
-        email: authData.email,
-        password: authData.password,
-        password_confirmation: authData.password_confirmation,
-        country: authData.country
-    });
+    let form = new Form(authData);
+    form.post('register').then(res => {
+        //develop debug
+        console.log(res.user);
 
-    // axios.post('/register', {
-    //   first_name: authData.first_name,
-    //   last_name: authData.last_name,
-    //   username: authData.username,
-    //   email: authData.email,
-    //   password: authData.password,
-    //   password_confirmation: authData.password_confirmation,
-    //   country: authData.country
-  // }
-    form.post('register'
-    ).then(res => {
-      //develop debug
-      console.log(res.user);
+        dispatch('verifyEmail', {token: res.token, userId: res.user.id});
+      }).catch(res => {
+        //develop debug
+      console.log(res.message);
 
-      //from seconds to milliseconds
-      // const expirationDate = new Date(res.expiration * 1000);
-      // setLocalStorage(res.token, res.user, expirationDate);
-
-      //set user, token in vuex-store and logout when token expire
-      // commit('authUser', {token: res.token, user: res.user});
-      dispatch('verifyEmail', {token: res.token, userId: res.user.id});
-      // dispatch('setLogoutTimer', expirationDate);
-    }).catch(() => {
-      console.log(form.errors.any());
-      Vue.notify({
-        group: 'main',
-        title: 'Registration',
-        type: 'error',
-        text: form.errors.get('message'),
-        duration: 3000,
-        speed: 1000
-      });
+      // for (let data in res.errors) {
+      //   Vue.notify({
+      //     group: 'main',
+      //     title: 'Registration',
+      //     type: 'error',
+      //     text: res.errors[data][0],
+      //     duration: 3000,
+      //     speed: 1000
+      //   });
+      // }
     });
   },
   login: ({commit, dispatch}, authData) => {
-    axios.post('login', {
-      email: authData.email,
-      password: authData.password
-    }).then(res => {
+    let form = new Form(authData);
+    form.post('login').then(res => {
       //develop debug
-      console.log(res.data.user);
-      if(!res.data.user.email_verified_at){
+      console.log(res.user);
+
+      if (!res.user.email_verified_at) {
         Vue.notify({
           group: 'main',
           title: 'Login',
@@ -105,8 +83,8 @@ const actions = {
       }
 
       //from seconds to milliseconds
-      const expirationDate = new Date(res.data.expiration * 1000);
-      setLocalStorage(res.data.token, res.data.user, expirationDate);
+      const expirationDate = new Date(res.expiration * 1000);
+      setLocalStorage(res.token, res.user, expirationDate);
 
       Vue.notify({
         group: 'main',
@@ -118,28 +96,30 @@ const actions = {
       });
 
       //set user, token in vuex-store and logout when token expire
-      commit('authUser', {token: res.data.token, user: res.data.user});
+      commit('authUser', {token: res.token, user: res.user});
       dispatch('setLogoutTimer', expirationDate);
 
-    }).catch((error) => {
-        Vue.notify({
-          group: 'main',
-          title: 'Login',
-          type: 'error',
-          text: error.response.data.message,
-          duration: 3000,
-          speed: 1000
-        });
+    }).catch(error => {
+      console.log(error.message);
+
+      Vue.notify({
+        group: 'main',
+        title: 'Login',
+        type: 'error',
+        text: error.message,
+        duration: 3000,
+        speed: 1000
       });
+    });
   },
   tryAutoLogin: ({commit}) => {
     const token = localStorage.getItem('token');
-    if (!token || token === 'undefined'){
+    if (!token || token === 'undefined') {
       return;
     }
     const expirationDate = new Date(localStorage.getItem('expirationDate'));
     const now = new Date();
-    if(now.getTime() >= expirationDate.getTime()) {
+    if (now.getTime() >= expirationDate.getTime()) {
       return;
     }
     const user = localStorage.getItem('user');
@@ -154,7 +134,9 @@ const actions = {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('expirationDate');
-    // router.replace('/');
+    if( window.location.pathname !== '/') {
+      router.push({ name: "home"});
+    }
   }
 };
 

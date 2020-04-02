@@ -11,6 +11,7 @@ import store from "../store/store";
 let routes = [
   {
     path: '/',
+    name: 'home',
     component: Home,
   },
   {
