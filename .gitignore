@@ -4,6 +4,7 @@ dist/
 ./src/core/variables.js
 npm-debug.log
 yarn-error.log
+index.html
 
 # Editor directories and files
 .idea
