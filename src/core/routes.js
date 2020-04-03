@@ -7,6 +7,7 @@ import Forum from '../views/Forum.vue';
 import AllGames from '../views/AllGames.vue';
 import EmailVerified from "../views/EmailVerified";
 import store from "../store/store";
+import PasswordReset from "../views/auth/PasswordReset";
 
 let routes = [
   {
@@ -38,6 +39,10 @@ let routes = [
   {
     path: '/verified',
     component: EmailVerified,
+  },
+  {
+    path: '/password_reset/:token?',
+    component: PasswordReset,
   },
   {
     path: '*',

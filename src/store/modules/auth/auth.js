@@ -1,10 +1,9 @@
-import router from "../../core/routes";
+import router from "../../../core/routes";
 import Vue from 'vue';
 
 const state = {
   token: null,
-  user: null,
-  loading: null
+  user: null
 };
 
 const mutations = {
@@ -16,9 +15,6 @@ const mutations = {
     state.token = null;
     state.user = null;
   },
-  loading(state){
-    state.loading = !state.loading
-  }
 };
 
 const actions = {
@@ -56,7 +52,7 @@ const actions = {
         dispatch('verifyEmail', {token: res.token, userId: res.user.id});
       }).catch(res => {
       commit('loading');
-        //develop debug
+        //develop debugloading
       console.log(res.message);
 
       for (let data in res.errors) {
@@ -145,9 +141,6 @@ const getters = {
   token: (state) => {
     return state.token;
   },
-  loading(state){
-    return state.loading
-  }
 };
 
 function setLocalStorage(token, user, expirationDate) {

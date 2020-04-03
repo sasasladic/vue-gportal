@@ -20,7 +20,9 @@
                         </div>
                         <div class="form-group">
                             <div class="pull-left">
-                                <a href="">Forgot password?</a>
+                              <p @click="$emit('close')">
+                                <router-link to="/password_reset">Forgot password?</router-link>
+                              </p>
                             </div>
                             <div class="pull-right">
                                 <button type="submit" class="btn btn-blue">Login</button>

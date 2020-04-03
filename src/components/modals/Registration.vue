@@ -10,45 +10,43 @@
         </div>
         <div class="modal-body">
           <form @submit.prevent="onSubmit">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Name"
+                <input type="text" class="form-control" placeholder="First name"
                        v-model="first_name" name="first_name">
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-mail"
-                       v-model="email" name="email">
+                <input type="text" class="form-control" placeholder="Last name"
+                       v-model="last_name" name="last_name">
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Surname"
-                       v-model="last_name" name="last_name">
+                <input type="email" class="form-control" placeholder="E-mail"
+                       v-model="email" name="email">
               </div>
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Username"
                        v-model="username" name="username">
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
                 <input type="password" class="form-control" placeholder="Password"
                        v-model="password" name="password">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Country"
-                       v-model="country" name="country">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="password" class="form-control" placeholder="Confirm password"
+                <input type="password" class="form-control" placeholder="Password confirmation"
                        v-model="password_confirmation" name="password_confirmation">
               </div>
             </div>
             <div class="col-md-12">
-              <div class="pull-right">
-                <button type="submit" class="btn btn-blue">Register</button>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Country"
+                       v-model="country" name="country">
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
               </div>
             </div>
           </form>
@@ -97,7 +95,7 @@
   .dblock{
     display: block;
   }
-  .register-box{
-    width: 639px;
+  #register{
+    top: -56px;
   }
 </style>
