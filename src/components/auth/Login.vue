@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <form @submit.prevent="onSubmit">
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="E-mail" id="email"
+                            <input type="email" class="form-control" placeholder="E-mail"
                                    v-model="email">
                         </div>
                         <div class="form-group">

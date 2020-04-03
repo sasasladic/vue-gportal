@@ -1,5 +1,5 @@
 import router from "../../../core/routes";
-import Vue from 'vue';
+import {notification} from "../../../helpers/notification";
 
 const state = {
   token: null,
@@ -31,15 +31,12 @@ const actions = {
         commit('loading');
         //develop debug
         console.log(res);
-
-        Vue.notify({
-          group: 'main',
+        let content = {
           title: 'Registration',
           type: "success",
-          text: 'You have successfully registered! Please confirm you email to continue.',
-          duration: 3000,
-          speed: 1000
-        });
+          text: 'You have successfully registered! Please confirm you email to continue.'
+        };
+        notification.showNotification({content});
       });
   },
   register: ({commit, dispatch}, authData) => {
@@ -50,57 +47,47 @@ const actions = {
         console.log(res.user);
 
         dispatch('verifyEmail', {token: res.token, userId: res.user.id});
-      }).catch(res => {
+      }).catch(error => {
       commit('loading');
-        //develop debugloading
-      console.log(res.message);
+        //develop debug
+      console.log(error.message);
 
-      for (let data in res.errors) {
-        Vue.notify({
-          group: 'main',
-          title: 'Registration',
-          type: 'error',
-          text: res.errors[data][0],
-          duration: 3000,
-          speed: 1000
-        });
-      }
+      let content = {
+        title: 'Registration',
+        type: 'error'
+      };
+      notification.showNotification({content} , {error: error.errors});
     });
   },
   login: ({commit, dispatch}, authData) => {
+    commit('loading');
+    if(localStorage.getItem('reset_email')){
+      localStorage.removeItem('reset_email');
+    }
+
+    let content = {
+      title: 'Login'
+    };
+
     let form = new Form(authData);
     form.post('login').then(res => {
-      //develop debug
-      console.log(res.user);
-
       //from seconds to milliseconds
       const expirationDate = new Date(res.expiration * 1000);
       setLocalStorage(res.token, res.user, expirationDate);
 
-      Vue.notify({
-        group: 'main',
-        title: 'Login',
-        type: "success",
-        text: 'You have successfully logged in!',
-        duration: 3000,
-        speed: 1000
-      });
+      content.type = 'success';
+      content.text = 'You have successfully logged in!';
+      notification.showNotification({content});
 
       //set user, token in vuex-store and logout when token expire
       commit('authUser', {token: res.token, user: res.user});
       dispatch('setLogoutTimer', expirationDate);
 
+      commit('loading');
     }).catch(error => {
-      console.log(error.message);
-
-      Vue.notify({
-        group: 'main',
-        title: 'Login',
-        type: 'error',
-        text: error.message,
-        duration: 3000,
-        speed: 1000
-      });
+      commit('loading');
+      content.type = 'error';
+      notification.showNotification({content} , {error: error.errors});
     });
   },
   tryAutoLogin: ({commit}) => {
@@ -125,6 +112,14 @@ const actions = {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('expirationDate');
+
+    let content = {
+      title: 'Logout',
+      type: 'primary',
+      text: 'You have successfully logged out!',
+    };
+
+    notification.showNotification({content});
     if( window.location.pathname !== '/') {
       router.push({ name: "home"});
     }

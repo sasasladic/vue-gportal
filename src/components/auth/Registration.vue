@@ -81,7 +81,7 @@
           country: this.country
         };
 
-        this.$store.dispatch('register',formData);
+        this.$store.dispatch('register', formData);
 
         this.$emit('close');
       }

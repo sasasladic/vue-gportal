@@ -1,11 +1,11 @@
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Home from '../views/Home';
 import Contact from '../views/Contact';
 import GamePanel from '../views/GamePanel';
-import Order from '../views/Order.vue';
-import Forum from '../views/Forum.vue';
-import AllGames from '../views/AllGames.vue';
-import EmailVerified from "../views/EmailVerified";
+import Order from '../views/Order';
+import Forum from '../views/Forum';
+import AllGames from '../views/AllGames';
+import EmailVerified from "../views/auth/EmailVerified";
 import store from "../store/store";
 import PasswordReset from "../views/auth/PasswordReset";
 

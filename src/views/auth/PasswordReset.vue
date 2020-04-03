@@ -80,19 +80,24 @@
         },
         submitMail () {
           this.$store.commit('loading');
+
           let form = new Form({
             email: this.email
           });
-
           form.post('password/email').then(res =>{
+              this.$store.commit('loading');
+
               this.showForm = false;
               this.showMessage = true;
-              this.$store.commit('loading');
               localStorage.setItem('reset_email', this.email);
           }).catch(error =>{
-            console.log(error);
-
             this.$store.commit('loading');
+
+            let content = {
+              title: 'Reset password',
+              type: 'error'
+            };
+            this.$notification.showNotification({content} , {error: error.errors});
           });
         },
         changePassword() {
@@ -104,35 +109,30 @@
             password: this.password,
             password_confirmation: this.password_confirmation,
           });
+
+          let content = {
+            title : 'Reset password'
+          };
           form.post('password/reset').then(res =>{
             this.$store.commit('loading');
-            localStorage.removeItem('reset_email');
-            this.showNotification('success', res.message);
-            router.push({ name: "home"});
 
+            content.type = 'success';
+            content.text = res.message;
+            this.$notification.showNotification({content});
+
+            router.push({ name: "home"});
           }).catch(error =>{
-            console.log(error);
             this.$store.commit('loading');
-            if(error.errors){
-              for (let data in error.errors) {
-                this.showNotification('error', error.errors[data][0]);
-              }
+
+            content.type='error';
+            if(error.errors) {
+              this.$notification.showNotification({content} , {error: error.errors});
             }else{
-              this.showNotification('error', error.message);
+              content.text = error.message;
+              this.$notification.showNotification({content});
             }
           });
         },
-
-        showNotification(type, text) {
-          this.$notify({
-            group: 'main',
-            title: 'Reset password',
-            type: type,
-            text: text,
-            duration: 3000,
-            speed: 1000
-          });
-        }
       },
 
       name: "ForgotPassword",

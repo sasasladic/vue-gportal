@@ -79,8 +79,8 @@
 </template>
 
 <script>
-  import Login from "./modals/Login";
-  import Registration from "./modals/Registration.vue";
+  import Login from "./auth/Login";
+  import Registration from "./auth/Registration.vue";
   import {mapGetters} from "vuex";
   export default {
     components: {
@@ -107,15 +107,7 @@
     methods: {
       logout() {
         this.$store.dispatch('logout');
-        this.$notify({
-          group: 'main',
-          title: 'Login',
-          text: 'You have successfully logged out!',
-          duration: 3000,
-          speed: 1000
-        })
       },
-
     }
   }
 </script>
