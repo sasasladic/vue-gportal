@@ -6,7 +6,7 @@
       <img src="../assets/images/slider-img-2.png"/>
       <img src="../assets/images/slider-img-3.png"/>
     </vue-agile>
-        <div class="offers">
+        <div class="title-dark">
           <div class="col-md-9">
             <h1>We have a great range of awesome game servers available within minutes!</h1>
             <p>Powered by Intel Xeon E5 and Intel Core i7 6700k with Solid State technology</p>

@@ -16,11 +16,11 @@ let routes = [
     component: Home,
   },
   {
-    path: '/game-panel',
+    path: '/game_panel',
     component: GamePanel,
   },
   {
-    path: '/contact-us',
+    path: '/contact_us',
     component: Contact,
   },
   {

@@ -74,18 +74,18 @@ body {
     margin: 20px auto;
     font-family: Moon Bold;
 }
-.offers {
+.title-dark {
 	background:#282d36;
 	padding: 20px;
   overflow:auto;
 }
-.offers h1 {
+.title-dark h1 {
 	font-family: 'Open Sans' , sans-serif;
 	font-weight: 500;
 	font-size: 22px;
 	color: #f6f7fb;
 }
-.offers p {
+.title-dark p {
 	font-family: 'Open Sans' , sans-serif;
 	font-weight: 300;
 	font-size: 16px;
@@ -272,6 +272,9 @@ body {
   font-size: 30px;
   color: #fff;
   font-weight: 300;
+  margin-bottom: 20px;
+  text-align: center;
+  margin-left: -35px;
 }
 .contact-us .contact-text .bold {
   font-weight: 700;

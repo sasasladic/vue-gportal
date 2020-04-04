@@ -24,13 +24,13 @@
             <router-link to="/forum" class="navbar-link" exact>Forum</router-link>
           </li>
           <li :class="[currentPage.includes('game-panel') ? activeClass : '']">
-            <router-link to="/game-panel" class="navbar-link" exact><i class="fa fa-cogs"></i> Game panel</router-link>
+            <router-link to="/game_panel" class="navbar-link" exact><i class="fa fa-cogs"></i> Game panel</router-link>
           </li>
           <li :class="[currentPage.includes('order') ? activeClass : '']">
             <router-link to="/order" class="navbar-link" exact>Order</router-link>
           </li>
           <li :class="[currentPage.includes('contact-us') ? activeClass : '']">
-            <router-link to="/contact-us" class="navbar-link" exact>Contact us</router-link>
+            <router-link to="/contact_us" class="navbar-link" exact>Contact us</router-link>
           </li>
           <li style="display: none">
             <router-link to="/verified" class="navbar-link" exact>Contact us</router-link>
